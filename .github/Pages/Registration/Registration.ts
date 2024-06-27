@@ -20,7 +20,7 @@ class Registration {
     
     }
 
-    async datafilling(First_Name: string, Last_Name: string, newEmail: string, Telephone: string, Password: string, Password_Confirm: string){
+    async datafilling(First_Name: string, Last_Name: string, Email: string, Telephone: string, Password: string, Password_Confirm: string){
 
         await this.page.getByPlaceholder('First Name').click();
         await this.page.getByPlaceholder('First Name').fill(First_Name);
@@ -31,7 +31,7 @@ class Registration {
         console.log("Last Name Entered Successfully");
 
         await this.page.getByPlaceholder('E-Mail').click();
-        await this.page.getByPlaceholder('E-Mail').fill(newEmail);
+        await this.page.getByPlaceholder('E-Mail').fill(Email);
         console.log("Email Entered Successfully");
 
         await this.page.getByPlaceholder('Telephone').click();
