@@ -1,7 +1,6 @@
 # Playground
 
-Currently i have worked on the Registration Test case 
-User go to the Playgound website 
-Sign up the account 
+Users go to the Playground website 
+Sign up for the account 
 
-Worked on the user defined functions named as Registration that User go to the site and Register the account on the Playground website.
+Worked on the user-defined functions named Registration that User Goes to the site and Register the account on the Playground website.
