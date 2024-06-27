@@ -34,13 +34,8 @@ test.describe('Registration', () => {
     await registration.ClickonMytab();
 
     const { First_Name,Last_Name,Email,Telephone,Password,Password_Confirm } = testData.Registration_form;
-
-    const randomNumber: number = RandomNumberGenerator.generateRandomInteger(10, 1000);
-    const newEmail = Email + "-" + randomNumber;
-
-
-    await registration.datafilling(First_Name,Last_Name,newEmail,Telephone,Password,Password_Confirm);
-
+    
+    await registration.datafilling(First_Name,Last_Name,Email,Telephone,Password,Password_Confirm);
     await registration.clicktoContinue();
     await registration.verifymyaccount();
 

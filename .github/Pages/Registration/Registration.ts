@@ -2,14 +2,20 @@ import { expect } from '@playwright/test';
 import { Locator, Page } from 'playwright';
 
 
-
-
 class Registration {
     private page: Page;
-    abc: any;
+    Continue: any;
+
 
     constructor(page: Page) {
         this.page = page;
+        const first_Name = page.locator('//input[@name="firstname"]');
+        const last_Name = page.locator('//input[@name="lastname"]');
+        const email = page.locator('//input[@name="email"]');
+        const telephone = page.locator('//input[@name="telephone"]');
+        const Password = page.locator('//input[@name="password"]');
+        const Password_Confirm = page.locator('//input[@name="confirm"]');
+
 
     }
 
@@ -53,11 +59,11 @@ class Registration {
 
     async clicktoContinue(){
 
-        const abc =  await this.page.getByRole('button',{name:'Continue'});
+        const Continue =  await this.page.getByRole('button',{name:'Continue'});
 
         if(await this.page.getByRole('button',{name:'Continue'}).isVisible()){
 
-            await abc.click();
+            await Continue.click();
             console.log("Continue Button Clicked Successfully");
             await this.page.waitForTimeout(5000);
 
