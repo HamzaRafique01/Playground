@@ -9,20 +9,20 @@ class Registration {
 
     constructor(page: Page) {
         this.page = page;
-        const first_Name = page.locator('//input[@name="firstname"]');
-        const last_Name = page.locator('//input[@name="lastname"]');
-        const email = page.locator('//input[@name="email"]');
-        const telephone = page.locator('//input[@name="telephone"]');
-        const Password = page.locator('//input[@name="password"]');
-        const Password_Confirm = page.locator('//input[@name="confirm"]');
+        // const first_Name = page.locator('//input[@name="firstname"]');
+        // const last_Name = page.locator('//input[@name="lastname"]');
+        // const email = page.locator('//input[@name="email"]');
+        // const telephone = page.locator('//input[@name="telephone"]');
+        // const Password = page.locator('//input[@name="password"]');
+        // const Password_Confirm = page.locator('//input[@name="confirm"]');
 
 
     }
 
     async ClickonMytab() {
         
-        await this.page.getByRole('button', { name: ' My account' }).click();
-        await this.page.getByRole('link', { name: ' Register'}).click();
+        await this.page.getByRole('button', { name: 'My account' }).click();
+        await this.page.getByRole('link', { name: 'Register'}).click();
     
     }
 
@@ -61,13 +61,16 @@ class Registration {
 
         const Continue =  await this.page.getByRole('button',{name:'Continue'});
 
-        if(await this.page.getByRole('button',{name:'Continue'}).isVisible()){
+        if(await Continue.isVisible()){
 
             await Continue.click();
             console.log("Continue Button Clicked Successfully");
-            await this.page.waitForTimeout(5000);
 
-            if(await this.page.locator('text= Your Account Has Been Created!').isVisible()){
+            // const Confirm_Continue = await this.page.locator().isVisible();
+
+            await expect('Your Account Has Been Created').toContain("Your Account Has Been Created");
+
+            if(await (await this.page.waitForSelector('text= Your Account Has Been Created!')).isVisible()){
 
                 console.log("Your Account has been Created!");
 
