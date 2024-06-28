@@ -20,7 +20,7 @@ const testData: TestData = {
 
         First_Name: 'ABC',
         Last_Name: 'XYZ',
-        Email: 'Abc@yopmail.com',
+        Email: 'eytfad@yopmail.com',
         Telephone: '1234567890',
         Password: 'P@ss1234',
         Password_Confirm: 'P@ss1234',
