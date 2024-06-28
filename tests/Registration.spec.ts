@@ -1,7 +1,7 @@
 import { test, expect, chromium, Browser, Page } from '@playwright/test';
 import Registration from '../.github/Pages/Registration/Registration';
 import testData, { RegistrationFormData } from '../TestData/testData';
-
+import { generateUniqueEmail } from '../randomnumbergen';
 
 
 
@@ -15,7 +15,7 @@ test.describe('Registration', () => {
   test.beforeEach(async ({ page }) => {
 
     browser = await chromium.launch({
-      headless: false
+      headless: true
     });
     context = await browser.newContext();
     page = await context.newPage();
@@ -30,6 +30,10 @@ test.describe('Registration', () => {
     await expect(page).toHaveURL('https://ecommerce-playground.lambdatest.io/index.php?route=common/home');
   });
 
+ 
+
+
+
   test('Create Account', async ({ page }) => {
 
     try {
@@ -41,16 +45,17 @@ test.describe('Registration', () => {
   
       // Destructure formData
       const { firstName, lastName, email, telephone, password, confirmPassword } = formData;
-  
+
+      
+      const uniqueEmail = generateUniqueEmail(email);
+      console.log(uniqueEmail)
+      
       // Fill registration form (assuming this method is implemented in your registration module)
-      await registration.fillRegistrationForm(firstName, lastName, email, telephone, password, confirmPassword);
+      await registration.fillRegistrationForm(firstName, lastName, await uniqueEmail, telephone, password, confirmPassword);
   
       // Click to continue (assuming this method is implemented in your registration module)
       await registration.clicktoContinue();
 
-      // await page.waitForSelector('text=Your Account Has Been Created!'); // Wait for success message
-      // const successMessage = await page.locator('text=Your Account Has Been Created!');
-      // expect(successMessage).toBeVisible(); // Assert that success message is visible
   
       // Verify account creation (assuming this method is implemented in your registration module)
       await registration.verifymyaccount();
@@ -65,3 +70,7 @@ test.describe('Registration', () => {
 
 
 });
+
+
+
+ 

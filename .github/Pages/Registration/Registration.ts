@@ -32,27 +32,27 @@ class Registration {
 
         await this.page.getByPlaceholder('First Name').click();
         await this.page.getByPlaceholder('First Name').fill(firstName);
-        console.log('First Name...'+firstName + 'Entered Successfully');
+        console.log('First Name...'+firstName+ ' Entered Successfully');
 
         await this.page.getByPlaceholder('Last Name').click();
         await this.page.getByPlaceholder('Last Name').fill(lastName);
-        console.log('Last Name...'+lastName +'Entered Successfully');
+        console.log('Last Name...'+lastName+' Entered Successfully');
 
         await this.page.getByPlaceholder('E-Mail').click();
         await this.page.getByPlaceholder('E-Mail').fill(email);
-        console.log('Email...'+email + 'Entered Successfully');
+        console.log('Email...'+email+ ' Entered Successfully');
 
         await this.page.getByPlaceholder('Telephone').click();
         await this.page.getByPlaceholder('Telephone').fill(telephone);
-        console.log('Telephone...'+telephone +'Entered Successfully');
+        console.log('Telephone...'+telephone+' Entered Successfully');
 
         await this.page.getByPlaceholder('Password', { exact: true }).click();
         await this.page.getByPlaceholder('Password', { exact: true }).fill(password);
-        console.log('Password...'+password +'Entered Successfully');
+        console.log('Password...'+password+' Entered Successfully');
 
         await this.page.getByPlaceholder('Password Confirm').click();
         await this.page.getByPlaceholder('Password Confirm').fill(confirmPassword);
-        console.log('Password Confirm...'+confirmPassword +'Entered Successfully');
+        console.log('Password Confirm...'+confirmPassword+' Entered Successfully');
 
         await this.page.getByText('I have read and agree to the').click();
         console.log("Checkbox checked Successfully");
