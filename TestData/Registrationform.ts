@@ -20,7 +20,7 @@ const testData: TestData = {
 
         First_Name: 'ABC',
         Last_Name: 'XYZ',
-        Email: 'testing12sa3@yopmail.com',
+        Email: 'Abc@yopmail.com',
         Telephone: '1234567890',
         Password: 'P@ss1234',
         Password_Confirm: 'P@ss1234',
@@ -29,4 +29,3 @@ const testData: TestData = {
 }
 
 export default testData;
-

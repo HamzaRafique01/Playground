@@ -1,9 +1,6 @@
 import { test, expect, chromium, Browser, Page } from '@playwright/test';
 import Registration from '../.github/Pages/Registration/Registration';
-import testData, { RegistrationFormData } from '../TestData/testData';
-import { generateUniqueEmail } from '../randomnumbergen';
-
-
+import testData from '../TestData/Registrationform';
 
 test.describe('Registration', () => {
 
@@ -15,7 +12,7 @@ test.describe('Registration', () => {
   test.beforeEach(async ({ page }) => {
 
     browser = await chromium.launch({
-      headless: true
+      headless: false
     });
     context = await browser.newContext();
     page = await context.newPage();
@@ -30,36 +27,20 @@ test.describe('Registration', () => {
     await expect(page).toHaveURL('https://ecommerce-playground.lambdatest.io/index.php?route=common/home');
   });
 
- 
-
-
-
   test('Create Account', async ({ page }) => {
 
     try {
-      // Iterate over each registration form data
-      for (const formData of testData.registrationForms) {
-
-      // Click on a tab (assuming this method is implemented in your registration module)
+    
       await registration.ClickonMytab();
   
-      // Destructure formData
-      const { firstName, lastName, email, telephone, password, confirmPassword } = formData;
+      const { First_Name, Last_Name, Email, Telephone, Password, Password_Confirm } = testData.Registration_form;
 
-      
-      const uniqueEmail = generateUniqueEmail(email);
-      console.log(uniqueEmail)
-      
-      // Fill registration form (assuming this method is implemented in your registration module)
-      await registration.fillRegistrationForm(firstName, lastName, await uniqueEmail, telephone, password, confirmPassword);
+      await registration.fillRegistrationForm(First_Name, Last_Name, Email, Telephone, Password, Password_Confirm);
   
-      // Click to continue (assuming this method is implemented in your registration module)
       await registration.clicktoContinue();
 
-  
-      // Verify account creation (assuming this method is implemented in your registration module)
       await registration.verifymyaccount();
-      } 
+      
     } catch (error) {
     // Handle errors
     console.error('Test case failed:', error);
@@ -70,7 +51,3 @@ test.describe('Registration', () => {
 
 
 });
-
-
-
- 
