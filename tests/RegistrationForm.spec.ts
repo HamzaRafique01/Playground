@@ -1,9 +1,8 @@
 import { test, expect, chromium, Browser, Page } from '@playwright/test';
 import Registration from '../.github/Pages/Registration/Registration';
-import testData, { RegistrationFormData } from '../TestData/testData';
+import testData from '../TestData/Registrationform';
+import testdata, { RegistrationFormData } from '../TestData/testData';
 import { generateUniqueEmail } from '../randomnumbergen';
-
-
 
 test.describe('Registration', () => {
 
@@ -30,37 +29,31 @@ test.describe('Registration', () => {
     await expect(page).toHaveURL('https://ecommerce-playground.lambdatest.io/index.php?route=common/home');
   });
 
- 
-
-
-
   test('Create Account', async ({ page }) => {
 
     try {
-      // Iterate over each registration form data
-      for (const formData of testData.registrationForms) {
-
-      // Click on a tab (assuming this method is implemented in your registration module)
+    
+      // Click on a tab 
       await registration.ClickonMytab();
-  
-      // Destructure formData
-      const { firstName, lastName, email, telephone, password, confirmPassword } = formData;
-      
-      // Fill registration form (assuming this method is implemented in your registration module)
-      await registration.fillRegistrationForm(firstName, lastName, generateUniqueEmail(email), telephone, password, confirmPassword);
 
-      // Click on the Privacy Policy Checkbox
+      // Destructure formData
+      const { First_Name, Last_Name, Email, Telephone, Password, Password_Confirm } = testData.Registration_form;
+
+       // Fill registration form
+      await registration.fillRegistrationForm(First_Name, Last_Name, generateUniqueEmail(Email), Telephone, Password, Password_Confirm);
+
+       // Checking Privacy Policy 
       await registration.verifyprivacypolicycheckbox();
   
-      // Click to continue (assuming this method is implemented in your registration module)
+      // Click to continue 
       await registration.clicktoContinue();
 
-      // Check the Privacy policy warning message display on the page
+      // // Check All the Required Fields
       await registration.requiredFieldsErrorMessage();
 
-      // Verify account creation (assuming this method is implemented in your registration module)
+      // Success Message Verify
       await registration.verifymyaccount();
-      } 
+      
     } catch (error) {
     // Handle errors
     console.error('Test case failed:', error);
@@ -71,7 +64,3 @@ test.describe('Registration', () => {
 
 
 });
-
-
-
- 
