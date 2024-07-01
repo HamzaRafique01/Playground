@@ -1,8 +1,7 @@
 import { test, expect, chromium, Browser, Page } from '@playwright/test';
 import Registration from '../.github/Pages/Registration/Registration';
-import testData, { RegistrationFormData } from '../TestData/testData';
-import { generateUniqueEmail } from '../randomnumbergen';
-
+import testData from '../testData';
+import { RandomNumberGenerator } from '../randomnumbergen';
 
 
 test.describe('Registration', () => {
@@ -15,13 +14,12 @@ test.describe('Registration', () => {
   test.beforeEach(async ({ page }) => {
 
     browser = await chromium.launch({
-      // headless: true
+      headless: false
     });
     context = await browser.newContext();
     page = await context.newPage();
-    test.setTimeout(350000);
+    test.setTimeout(150000);
     registration = new Registration(page);
-    
     
     // Go to the starting url before each test.
     await page.goto('https://ecommerce-playground.lambdatest.io/index.php?route=common/home');
@@ -30,48 +28,18 @@ test.describe('Registration', () => {
     await expect(page).toHaveURL('https://ecommerce-playground.lambdatest.io/index.php?route=common/home');
   });
 
- 
-
-
 
   test('Create Account', async ({ page }) => {
+    
+    await registration.ClickonMytab();
 
-    try {
-      // Iterate over each registration form data
-      for (const formData of testData.registrationForms) {
+    const { First_Name,Last_Name,Email,Telephone,Password,Password_Confirm } = testData.Registration_form;
+    
+    await registration.datafilling(First_Name,Last_Name,Email,Telephone,Password,Password_Confirm);
+    await registration.clicktoContinue();
+    await registration.verifymyaccount();
 
-      // Click on a tab (assuming this method is implemented in your registration module)
-      await registration.ClickonMytab();
-  
-      // Destructure formData
-      const { firstName, lastName, email, telephone, password, confirmPassword } = formData;
-      
-      // Fill registration form (assuming this method is implemented in your registration module)
-      await registration.fillRegistrationForm(firstName, lastName, generateUniqueEmail(email), telephone, password, confirmPassword);
 
-      // Click on the Privacy Policy Checkbox
-      await registration.verifyprivacypolicycheckbox();
-  
-      // Click to continue (assuming this method is implemented in your registration module)
-      await registration.clicktoContinue();
-
-      // Check the Privacy policy warning message display on the page
-      await registration.requiredFieldsErrorMessage();
-
-      // Verify account creation (assuming this method is implemented in your registration module)
-      await registration.verifymyaccount();
-      } 
-    } catch (error) {
-    // Handle errors
-    console.error('Test case failed:', error);
-    throw error; // Rethrow the error to mark the test case as failed
-  }
   });
 
-
-
 });
-
-
-
- 
