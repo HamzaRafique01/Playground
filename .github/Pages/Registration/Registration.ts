@@ -3,9 +3,11 @@ import { test, expect } from '@playwright/test';
 import { Console } from 'console';
 
 class Registration {
+   
+
     private page: Page;
     Continue: any;
-  registrationForms: any;
+    registrationForms: any;
 
 
     constructor(page: Page) {
@@ -203,7 +205,7 @@ class Registration {
 
     async agreetothePrivacyPolicy(){
 
-        // Check First Name error message
+        // Check Privacy policy error message
         const warnigMessage = this.page.getByText("Warning: You must agree to");
         const iswarningVisible = await warnigMessage.isVisible({ timeout: 5000 });
         if (iswarningVisible) {
