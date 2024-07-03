@@ -49,7 +49,7 @@ test.describe('Registration', () => {
       await registration.clicktoContinue();
 
       // // Check All the Required Fields
-      await registration.requiredFieldsErrorMessage();
+      await registration.requiredFieldsErrorMessage(First_Name, Last_Name, Email, Telephone, Password, Password_Confirm );
 
       // Success Message Verify
       await registration.verifymyaccount();

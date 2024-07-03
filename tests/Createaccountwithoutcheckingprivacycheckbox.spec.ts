@@ -1,6 +1,5 @@
 import { test, expect, chromium, Browser, Page } from '@playwright/test';
 import Registration from '../.github/Pages/Registration/Registration';
-import testData, { RegistrationFormData } from '../TestData/testData';
 import Registration_form from '../TestData/Registrationform';
 import { generateUniqueEmail } from '../randomnumbergen';
 

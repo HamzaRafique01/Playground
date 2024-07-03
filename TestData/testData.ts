@@ -1,5 +1,3 @@
-// testdata.ts
-
 export interface RegistrationFormData {
   firstName: string;
   lastName: string;
