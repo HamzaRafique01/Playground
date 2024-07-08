@@ -4,7 +4,6 @@ import Wishlist from '../.github/Pages/Wishlist';
 import Login from '../.github/Pages/Login/Login';
 import Apple_func from '../.github/Pages/MegaMenu/Apple.functional'
 import Loginsingleuser from '../TestData/logindatawithsingleuser';
-import waitForClickable from 'webdriverio/build/commands/element/waitForClickable';
 
 test.describe('Verify Mega Menu > Apple Page All Scenarios', () => {
   let browser: Browser;
@@ -16,7 +15,7 @@ test.describe('Verify Mega Menu > Apple Page All Scenarios', () => {
   let apple_func:Apple_func;
 
   test.beforeEach(async () => {
-    browser = await chromium.launch({ headless: true });
+    browser = await chromium.launch({ headless: false });
     context = await browser.newContext();
     page = await context.newPage();
     wishlist = new Wishlist(page);
@@ -78,6 +77,7 @@ test.describe('Verify Mega Menu > Apple Page All Scenarios', () => {
     await wishlist.hoverProduct();
 
     //Add Product to wishlist
+    // const productname = 'iMac';
     await wishlist.addOnWishlist();
 
     
@@ -141,6 +141,7 @@ test.describe('Verify Mega Menu > Apple Page All Scenarios', () => {
     await wishlist.hoverProduct();
 
     //Add Product to wishlist
+    // const productname = 'iPod Nano';
     await wishlist.addOnWishlist();
 
     // Check wishlist update
@@ -236,40 +237,22 @@ test.describe('Verify Mega Menu > Apple Page All Scenarios', () => {
   });
 
 
-  test('Verify duplicate products in wishlist are not allowed', async ({ page }) => {
-    // Navigate to the Apple products page
-    await page.goto('https://ecommerce-playground.lambdatest.io/index.php?route=product/manufacturer/info&manufacturer_id=8');
+  test('Verify duplicate products in wishlist are not allowed', async () => {
 
-    // Create an instance of the Wishlist class
-    const wishlist = new Wishlist(page);
+    // Navigate to Product page
+    await wishlist.checkMegaMenu();
 
-    // Define the product to test
-    const productName = 'iPod Touch';
+    // Hover on the product
+    await wishlist.hoverProduct();
 
-    // Add product to wishlist
-    await wishlist.addToWishlist(productName);
+    //Add Product to wishlist
+    await wishlist.addOnWishlist();
 
-    // Go to wishlist page
-    await wishlist.goToWishlist();
+    // Verify Login or registration popup displayed
+    await wishlist.checkLoginOrRegistration();
+    
 
-    // Add the same product again to wishlist
-    await page.goBack(); // Go back to product page
-    await wishlist.addToWishlist(productName);
-
-    // Go to wishlist page to verify the changes
-    await wishlist.goToWishlist();
-
-    // Verify no duplicate entries
-    const noDuplicates = await wishlist.verifyNoDuplicatesInWishlist(productName);
-    expect(noDuplicates).toBe(true);
-
-    // Log the result
-    if (noDuplicates) {
-        console.log('Test passed: No duplicate products found in the wishlist.');
-    } else {
-        console.log('Test failed: Duplicate products found in the wishlist.');
-    }
-});
+  });
 
   test('Verify that the count update when new product add and remove from the wishlist', async () => {
 

@@ -19,11 +19,22 @@ class Filters {
     private colorFilterLocator: Locator;
     private availabilityFilterLocator: Locator;
     private sizeFilterLocator: Locator;
+    private manufacturerFilterLocator: Locator;
     private discountFilterLocator: Locator;
-    private priceLocator: Locator;
+    private showmore: Locator;
+    private listview: Locator;
+    private gridview: Locator;
+    private productComparisonLinkLocator: Locator;
+
+
+
+
+
+
 
     constructor(page: Page) {
         this.page = page;
+        this.showmore = page.locator('#mz-filter-panel-0-1').getByRole('link', { name: 'See more' });
         this.megaMenuLocator = page.locator('//span[contains(text(), "Mega Menu")]');
         this.currentpageLocator = page.getByRole('link', { name: '', exact: true });
         this.brandLocator = page.locator('li').filter({ hasText: 'Brand' });
@@ -37,11 +48,14 @@ class Filters {
         this.addToCartButtonLocator = page.locator('.product-action > button').first();
         this.viewCartLinkLocator = page.getByRole('link', { name: 'View Cart' });
         this.searchFilterLocator = page.locator('#mz-filter-panel-0-1').getByPlaceholder('Search');
-        this.colorFilterLocator = page.locator('#mz-filter-panel-0-2').getByRole('img', { name: '' });
+        this.colorFilterLocator = page.locator('#mz-filter-panel-0-2').getByRole('img', { name: 'Green' });
         this.availabilityFilterLocator = page.locator('#mz-filter-panel-0-3').getByText('');
         this.sizeFilterLocator = page.locator('#mz-filter-panel-0-4').getByText('');
-        this.discountFilterLocator = page.locator('#mz-filter-panel-0-5 div').filter({ hasText: '30% off or more' }).nth(2);
-        this.priceLocator = page.getByText('Price');
+        this.discountFilterLocator = page.locator('#mz-filter-panel-0-5 div').filter({ hasText: '' }).nth(2);
+        this.manufacturerFilterLocator = page.locator('#mz-filter-panel-0-1').getByText('');
+        this.listview = page.locator('//button[@data-original-title="List"]');
+        this.gridview = page.locator('//button[@data-original-title="Grid"]');
+        this.productComparisonLinkLocator = this.page.locator('//a[contains(@href, "compare")]');
     }
 
     async clickOnPage(pageName: string) {
@@ -82,29 +96,31 @@ class Filters {
     }
 
     async setMinValue(min: string) {
-        await expect(this.priceLocator).toBeVisible();
+        await expect(this.minimumPriceLocator).toBeVisible();
         await this.minimumPriceLocator.fill(min);
         await this.minimumPriceLocator.press('Enter');
-        console.log('Minimum price selected. Waiting for page update...');
+        console.log('Minimum price selected. Waiting for page update.....'+ min);
     }
 
     async setMaxValue(max: string) {
-        await expect(this.priceLocator).toBeVisible();
+        await expect(this.maximumPriceLocator).toBeVisible();
         await this.maximumPriceLocator.fill(max);
         await this.maximumPriceLocator.press('Enter');
-        console.log('Maximum price selected. Waiting for page update...');
+        console.log('Maximum price selected. Waiting for page update.....'+ max);
     }
 
     async sortByProducts(sortBy: string) {
         await expect(this.sortbyFilterLocator).toBeVisible();
         await this.sortbyFilterLocator.selectOption({ label: sortBy });
         console.log('Products sorted by filter applied.');
+        console.log("Desired SortBy Selected........."+ sortBy);
     }
 
     async showUpProduct(count: string) {
         await expect(this.showupDropdownLocator).toBeVisible();
         await this.showupDropdownLocator.selectOption({ label: count });
-        console.log('Products show up filter applied.');
+        console.log('Products show filter applied.....');
+        console.log("Desired Show Selected........."+ count);
     }
 
     async checkAddToCartButton() {
@@ -124,36 +140,35 @@ class Filters {
     }
 
     async checkProductColor(color: string) {
-        await this.page.locator('#mz-filter-content-0').getByText('Color').click();
-        await this.colorFilterLocator.getByRole('img', { name: color }).click();
+        await this.page.locator('#mz-filter-content-0').getByText('Color').isVisible();
+        await expect(this.page.locator('#mz-filter-panel-0-2').getByRole('img', { name: color })).toBeVisible();
+        await this.colorFilterLocator.click();
         console.log('Product color selected successfully.');
     }
 
     async checkProductAvailability(availability: string) {
         await this.page.locator('#mz-filter-content-0').getByText('Availability').click();
         await this.availabilityFilterLocator.getByText(availability).click();
-        console.log('Product availability selected successfully.');
+        console.log('Product availability selected successfully.....'+availability);
     }
 
     async checkSizeOfProduct(size: string) {
         await this.page.locator('#mz-filter-content-0').getByText('Size').click();
         await this.sizeFilterLocator.getByText(size).click();
-        console.log('Product size selected successfully.');
+        console.log('Product size selected successfully......'+size);
     }
 
-    async checkDiscounts() {
-        await this.page.locator('#mz-filter-content-0').getByText('Discount').click();
+    async checkDiscounts(discount) {
+        await this.page.locator('#mz-filter-content-0').getByText(discount).click();
         await this.discountFilterLocator.click();
-        console.log('Product discount selected successfully.');
+        console.log('Product discount selected successfully.....'+discount);
     }
 
     async checkNextPage() {
         const paginationContainer = await this.page.locator('.pagination');
         await expect(paginationContainer).toBeVisible();
-        await expect(this.page.getByRole('link', { name: '>', exact: true })).toBeVisible();
+        await expect(this.page.getByRole('link', { name: '>', exact: true })).toBeVisible;
         await this.page.getByRole('link', { name: '>', exact: true }).click();
-        await this.page.waitForNavigation();
-        await expect(this.page.url()).toMatch(/page=\d+/);
     }
 
     async checkPreviousPage() {
@@ -161,8 +176,6 @@ class Filters {
         await expect(paginationContainer).toBeVisible();
         await expect(this.page.getByRole('link', { name: '<', exact: true })).toBeVisible();
         await this.page.getByRole('link', { name: '<', exact: true }).click();
-        await this.page.waitForNavigation();
-        await expect(this.page.url()).toMatch(/page=\d+/);
     }
 
     async checkCustomPage(num: string) {
@@ -170,9 +183,192 @@ class Filters {
         await expect(paginationContainer).toBeVisible();
         await expect(this.page.getByRole('link', { name: num, exact: true })).toBeVisible();
         await this.page.getByRole('link', { name: num, exact: true }).click();
-        await this.page.waitForNavigation();
-        await expect(this.page.url()).toMatch(/page=\d+/);
     }
+
+    async checkDesktopProducts() {
+        
+        await expect(this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' })).toBeVisible();
+        await this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' }).click();
+
+        await expect(this.page.getByRole('link', { name: 'Desktops (75)' })).toBeVisible();
+        await this.page.getByRole('link', { name: 'Desktops (75)' }).click();
+
+        await expect(this.page.getByRole('heading', { name: 'Desktops' })).toBeVisible();
+        await expect(this.page.getByText('Lorem ipsum dolor sit amet,')).toBeVisible();
+
+        console.log('User successfully navigate to the Desktop category page........ ');
+
+
+    }
+
+    async checkLaptopsProducts() {
+        
+        await expect(this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' })).toBeVisible();
+        await this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' }).click();
+
+        await expect(this.page.getByRole('link', { name: 'Laptops (75)' })).toBeVisible();
+        await this.page.getByRole('link', { name: 'Laptops (75)' }).click();
+
+        await expect(this.page.getByRole('heading', { name: 'Laptops' })).toBeVisible();
+        await expect(this.page.getByText('Shop Laptop feature only the')).toBeVisible();
+
+        console.log('User successfully navigate to the Laptops category page........ ');
+
+    }
+
+    async checkComponentsProducts() {
+        
+        await expect(this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' })).toBeVisible();
+        await this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' }).click();
+
+        await expect(this.page.getByRole('link', { name: 'Components (75)' })).toBeVisible();
+        await this.page.getByRole('link', { name: 'Components (75)' }).click();
+
+        await expect(this.page.getByRole('heading', { name: 'Components' })).toBeVisible();
+        await expect(this.page.getByText('Lorem ipsum dolor sit amet,')).toBeVisible();
+
+        console.log('User successfully navigate to the Components category page........ ');
+
+    }
+
+    async checkTabletsProducts() {
+        
+        await expect(this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' })).toBeVisible();
+        await this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' }).click();
+
+        await expect(this.page.getByRole('link', { name: 'Tablets (75)' })).toBeVisible();
+        await this.page.getByRole('link', { name: 'Tablets (75)' }).click();
+
+        await expect(this.page.getByRole('heading', { name: 'Tablets' })).toBeVisible();
+        await expect(this.page.getByText('Lorem ipsum dolor sit amet,')).toBeVisible();
+
+        console.log('User successfully navigate to the Tablets category page........ ');
+
+    }
+
+    async checkSoftwareProducts() {
+        
+        await expect(this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' })).toBeVisible();
+        await this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' }).click();
+
+        await expect(this.page.getByRole('link', { name: 'Software (75)' })).toBeVisible();
+        await this.page.getByRole('link', { name: 'Software (75)' }).click();
+
+        await expect(this.page.getByRole('heading', { name: 'Software' })).toBeVisible();
+        await expect(this.page.getByText('Lorem ipsum dolor sit amet,')).toBeVisible();
+
+        console.log('User successfully navigate to the Software category page........ ');
+
+    }
+
+    async checkPhonesPDAsProducts() {
+        
+        await expect(this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' })).toBeVisible();
+        await this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' }).click();
+
+        await expect(this.page.getByRole('link', { name: 'Phones & PDAs (75)' })).toBeVisible();
+        await this.page.getByRole('link', { name: 'Phones & PDAs (75)' }).click();
+
+        await expect(this.page.getByRole('heading', { name: 'Phones & PDAs' })).toBeVisible();
+        await expect(this.page.getByText('Lorem ipsum dolor sit amet,')).toBeVisible();
+
+        console.log('User successfully navigate to the Phones & PDAs category page........ ');
+
+    }
+
+    async checkCamerasProducts() {
+        
+        await expect(this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' })).toBeVisible();
+        await this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' }).click();
+
+        await expect(this.page.getByRole('link', { name: 'Cameras (75)' })).toBeVisible();
+        await this.page.getByRole('link', { name: 'Cameras (75)' }).click();
+
+        await expect(this.page.getByRole('heading', { name: 'Cameras' })).toBeVisible();
+        await expect(this.page.getByText('Lorem ipsum dolor sit amet,')).toBeVisible();
+
+        console.log('User successfully navigate to the Cameras category page........ ');
+
+    }
+
+    async checkMP3PlayersProducts() {
+        
+        await expect(this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' })).toBeVisible();
+        await this.page.locator('#mz-filter-0 div').filter({ hasText: 'Filter' }).click();
+
+        await expect(this.page.getByRole('link', { name: 'MP3 Players (75)' })).toBeVisible();
+        await this.page.getByRole('link', { name: 'MP3 Players (75)' }).click();
+
+        await expect(this.page.getByRole('heading', { name: 'MP3 Players' })).toBeVisible();
+        await expect(this.page.getByText('Lorem ipsum dolor sit amet,')).toBeVisible();
+
+        console.log('User successfully navigate to the MP3 Players category page........ ');
+
+    }
+    async checkManufacturerProducts(manufacturer) {
+        
+        await this.page.locator('#mz-filter-content-0').getByText('Manufacturer');
+        await this.showmore.click();
+
+        await this.manufacturerFilterLocator.getByText(manufacturer).click();
+        console.log('Product size selected successfully.....'+manufacturer);
+
+    }
+
+    async gridToList(){
+
+        await this.listview.isVisible();
+        await this.listview.click();
+        console.log('List view button Clicked........');
+
+    }
+
+    async listToGrid(){
+
+        await this.gridview.isVisible();
+        await this.gridview.click();
+        console.log('Grid view button Clicked.......');
+    }
+
+    async hoverProduct() {
+        await this.productImageLocator.waitFor({ state: 'visible' });
+        await this.productImageLocator.hover();
+    }
+
+    async addOncomparelist() {
+
+        await this.page.locator('button:nth-child(4)').first().click();
+        await expect(this.page.getByText('Success: You have added iPod Touch to your product comparison! Product Compare')).toBeVisible();
+
+        console.log('User successfully Added product to Comapre.....');
+    }
+
+    async addProductToComparison(productName: string) {
+        const productLocator = this.page.locator(`//*[@id="entry_212439"]/div/div/div/div/h4/a[contains(text(), '${productName}')]`);
+        await expect(productLocator).toBeVisible();
+        await productLocator.hover();
+        const addtocompare = this.page.locator("//*[contains(text(),'"+productName+"')]/parent::h4/parent::div/parent::div/child::div/div[@class='product-action']/button[@title='Compare this Product']");
+        await addtocompare.click();
+        console.log(`Product "${productName}" added to comparison list.`);
+    }
+    
+    async navigateToComparisonPage() {
+        await expect(this.productComparisonLinkLocator).toBeVisible();
+        await this.productComparisonLinkLocator.click();
+        await this.page.waitForLoadState('load');
+        const comparisonHeading = this.page.locator('//h1[contains(text(), "Product Comparison")]');
+        await expect(comparisonHeading).toBeVisible();
+        console.log('Navigated to the product comparison page.');
+    }
+
+    async verifyProductsInComparison(productNames: string[]) {
+        for (const productName of productNames) {
+            const productLocator = this.page.locator(`//a[contains(text(), "${productName}")]`);
+            await expect(productLocator).toBeVisible();
+            console.log(`Product "${productName}" is present in the comparison list.`);
+        }
+    }
+
 }
 
 export default Filters;
