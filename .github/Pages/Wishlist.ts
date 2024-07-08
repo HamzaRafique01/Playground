@@ -22,8 +22,7 @@ class Wishlist {
     private wishlistItemsTableLocator: Locator;
     private productDetailsLocator: Locator;
     private loginOrRegistrationTextLocator: Locator;
-    private productNameLocator: Locator;
-    private wishlistLinkLocator: Locator;
+
 
     constructor(page: Page) {
         this.page = page;
@@ -31,7 +30,7 @@ class Wishlist {
         this.appleLinkLocator = page.getByRole('link', { name: 'Apple', exact: true });
         this.applePageURL = 'https://ecommerce-playground.lambdatest.io/index.php?route=product/manufacturer/info&manufacturer_id=8';
         this.wishlistLabelLocator = page.getByLabel('Wishlist');
-        this.wishlistHeadingLocator = page.getByRole('heading', { name: 'My Wish List' });
+        this.wishlistHeadingLocator = page.getByRole('heading', { name: 'My Wish List' })
         this.continueLinkLocator = page.getByRole('link', { name: 'Continue' });
         this.accountHeadingLocator = page.getByRole('heading', { name: 'My Account' });
         this.accountOrdersHeadingLocator = page.getByRole('heading', { name: 'My Orders' });
@@ -45,7 +44,7 @@ class Wishlist {
         this.wishlistItemsTableLocator = page.locator('.table-responsive tbody tr');
         this.productDetailsLocator = page.locator('#content');
         this.loginOrRegistrationTextLocator = page.getByText('You must login or create an account to save iPod Touch to your wish list! Login');
-        this.addToWishlistButtonLocator = page.locator('.product-thumb .button-group button[data-original-title="Add to Wish List"]').first();
+        // this.addToWishlistButtonLocator = page.locator('.product-thumb .button-group button[data-original-title="Add to Wish List"]').first();
         this.wishlistItemsTableLocator = page.locator('.table-responsive tbody tr');
         this.addToWishlistButtonLocator = page.locator('.product-thumb .button-group button[data-original-title="Add to Wish List"]');
         this.wishlistItemsTableLocator = page.locator('.table-responsive tbody tr');
@@ -86,8 +85,12 @@ class Wishlist {
     }
 
     async addOnWishlist() {
-        await this.page.getByRole('link', { name: 'iPod Touch iPod Touch iPod' }).waitFor({ state: 'visible' });
-        await this.addToWishlistButtonLocator.click();
+
+        await this.page.locator('.product-action > button:nth-child(2)').first().isVisible();
+        await this.page.locator('.product-action > button:nth-child(2)').first().click();
+        await this.page.getByText('Success: You have added iPod Touch to your wish list! Wish List (1)').isVisible();
+
+        console.log('User successfully Added product to wishlist.....');
     }
 
     async removeProduct() {
