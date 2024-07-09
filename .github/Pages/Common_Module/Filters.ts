@@ -369,6 +369,11 @@ class Filters {
         }
     }
 
+
+    async verifyBlogCount(){
+
+    }
+
 }
 
 export default Filters;
