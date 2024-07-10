@@ -2,7 +2,7 @@ import { test, expect, chromium, Browser, Page, BrowserContext } from '@playwrig
 import Filters from '../.github/Pages/Common_Module/Filters';
 import Wishlist from '../.github/Pages/Wishlist';
 import Login from '../.github/Pages/Login/Login';
-import Apple_func from '../.github/Pages/MegaMenu/Apple.functional'
+import Apple_func from '../.github/Pages/MegaMenu/Apple_functional'
 import Loginsingleuser from '../TestData/logindatawithsingleuser';
 
 test.describe('Verify Mega Menu > Apple Page All Scenarios', () => {

@@ -370,8 +370,12 @@ class Filters {
     }
 
 
-    async verifyBlogCount(){
+    async verifybreadcrumbpath(path){
 
+        await expect(this.page.getByLabel('breadcrumb').getByText(path)).toBeVisible();
+        const extractedPath = await this.page.getByLabel('breadcrumb').getByText(path).textContent();
+
+        console.log('Currect Page.......'+extractedPath);
     }
 
 }

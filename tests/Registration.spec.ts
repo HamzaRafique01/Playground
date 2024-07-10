@@ -56,7 +56,7 @@ test.describe('Registration', () => {
       await registration.clicktoContinue();
 
       // Check the Privacy policy warning message display on the page
-      await registration.requiredFieldsErrorMessage();
+      await registration.requiredFieldsErrorMessage(firstName, lastName, email, telephone, password, confirmPassword);
 
       // Verify account creation (assuming this method is implemented in your registration module)
       await registration.verifymyaccount();

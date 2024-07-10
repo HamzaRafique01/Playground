@@ -1,5 +1,5 @@
 import { test, expect, chromium, Browser, Page, BrowserContext } from '@playwright/test';
-import Apple_func from '../../.github/Pages/MegaMenu/Apple.functional';
+import Apple_func from '../../.github/Pages/MegaMenu/Apple_functional';
 import Filters from '../../.github/Pages/Common_Module/Filters';
 import Loginsingleuser from '../../TestData/logindatawithsingleuser';
 import Login from '../../.github/Pages/Login/Login';
@@ -121,7 +121,7 @@ test.describe('Verify Mega Menu > Apple Page All Scenarios', () => {
     await filters.checkCustomPage(num);
   });
 
-  test.skip('Verify that the user navigates to the Desktop page by clicking on the Desktop link available on the side navigation menu', async () => {
+  test.skip('Verify that the user navigates to the Desktop sub-categories by clicking on the required category link available on the side navigation menu', async () => {
     await apple_func.checkMegaMenu();
     await filters.checkDesktopProducts();
   });
