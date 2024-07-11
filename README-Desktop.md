@@ -1,7 +1,7 @@
 # My Project
 # This is project is related to E-Commerce website. 
 # My Day 10
-### Write down all the functional test cases for the "Desktop" page. Test cases should cover detailed functionality of the Blog page.
+### Write down all the functional test cases for the "Desktop" page. Test cases should cover detailed functionality of the Desktop page.
 ### Test case 1
 ### Verify that the user navigation to the Desktop Page from the Mega Menu   
 ### Test case 2
